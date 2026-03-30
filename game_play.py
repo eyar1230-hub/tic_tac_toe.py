@@ -20,7 +20,7 @@ def draw_board(board):
                 break
             print('---+---+---')
             break
-    print('---'*30)
+    print('---'*5, 'next turn', '---'*5)
 
 # computer input for board - should be random
 def ply_turn_to_pic(board):
@@ -49,13 +49,62 @@ def pc_turn_to_pic(board):
                 col = random.randint(0, 2)
 
 
-def check_winner(board):
-    X_winner == []
-    for winner in board:
-        if winner == ' X ':
-            X_winner.append(' X ')
-        pass
 
+
+def check_winner(board):
+
+    for row in board:
+        if row[0] == row[1] == row[2] and row[0] in [' X ', ' O ']:
+            return row[0]  # יחזיר ' X ' או ' O '
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] and board[0][col] in [' X ', ' O ']:
+            return board[0][col]
+    if board[0][0] == board[1][1] == board[2][2] and board[0][0] in [' X ', ' O ']:
+        return board[0][0]
+    if board[0][2] == board[1][1] == board[2][0] and board[0][2] in [' X ', ' O ']:
+        return board[0][2]
+    return None
+
+def is_tie(board):
+    for row in board:
+        for col in row:
+            if col not in [' X ', ' O ']:
+                return False
+    return True
+
+
+
+
+
+game_rules()
+board = [
+    [' 1 ',' 2 ',' 3 '],
+    [' 4 ',' 5 ',' 6 '],
+    [' 7 ',' 8 ',' 9 '],
+]
+
+while True:
+    board = ply_turn_to_pic(board)
+    draw_board(board)
+
+    winner = check_winner(board)
+    if winner:
+        print (f'winner is: {winner}\n{board}')
+        break
+    if is_tie(board):
+        print (f'its a tie {board}')
+        break
+
+    board = pc_turn_to_pic(board)
+    draw_board(board)
+
+    winer = check_winner(board)
+    if check_winner == True:
+        print (f'winner is: you \n{draw_board(board)}')
+        break
+    if is_tie(board):
+        print (f'winner is: computer\n{draw_board(board)}')
+        break
 
 # chose placement on the board
 #   verify placement == possible
@@ -78,20 +127,14 @@ def check_winner(board):
 #       check for winner
 #   if there is a winner - print winner icon
 ############################# main code #############################
-
-game_rules()
-board = [
-    [' 1 ',' 2 ',' 3 '],
-    [' 4 ',' 5 ',' 6 '],
-    [' 7 ',' 8 ',' 9 '],
-]
-
-while True:
-    board = ply_turn_to_pic(board)
-    draw_board(board)
-    if check_winner == True:
-        print ('winner is:')
-        print(board)
-    board = pc_turn_to_pic(board)
-    draw_board(board)
-
+# def check_winner(board):
+#     winner = None
+#     for row in board[0]:
+#         if row == [' X ', ' X ', ' X ']:
+#             winner = 'congratulation you won the match!!!'
+#             return winner
+#         elif row == [' O ', ' O ', ' O ']:
+#             winner = 'congratulation you won the match!!!'
+#             return winner
+#     else:
+#         return board
